@@ -3,10 +3,20 @@ var binRects = [];
 
 const backgroundImage = document.createElement("img");
 
+/**
+ * Hàm setImage
+ * Thiết lập ảnh nền cho layout bằng chuỗi base64.
+ * @param {string} imageBase64 - Chuỗi base64 của ảnh nền.
+ */
 function setImage(imageBase64) {
     backgroundImage.src = `data:image/jpeg;base64,${imageBase64}`;
 }
 
+/**
+ * Hàm setBinsData
+ * Nhận dữ liệu JSON về các bin, parse và vẽ lên layout.
+ * @param {string} JsonData - Chuỗi JSON chứa thông tin các bin.
+ */
 function setBinsData(JsonData) {
     try {
         bins = JSON.parse(JsonData);
@@ -17,6 +27,10 @@ function setBinsData(JsonData) {
     }
 }
 
+/**
+ * Hàm drawBins
+ * Xóa nội dung body, tạo container, canvas, tooltip và vẽ lại toàn bộ layout cùng các bin.
+ */
 function drawBins() {
     document.body.innerHTML = "";
 
@@ -45,6 +59,11 @@ function drawBins() {
     document.body.appendChild(container);
 }
 
+/**
+ * Hàm createScrollableContainer
+ * Tạo một div container có scroll để chứa canvas.
+ * @returns {HTMLDivElement} - Container div.
+ */
 function createScrollableContainer() {
     const container = document.createElement("div");
     container.style.width = "100%";
@@ -53,12 +72,22 @@ function createScrollableContainer() {
     return container;
 }
 
+/**
+ * Hàm createCanvas
+ * Tạo một thẻ canvas mới.
+ * @returns {HTMLCanvasElement} - Canvas element.
+ */
 function createCanvas() {
     const canvas = document.createElement("canvas");
     canvas.id = "layoutCanvas";
     return canvas;
 }
 
+/**
+ * Hàm createTooltip
+ * Tạo một tooltip hiển thị thông tin khi hover vào bin.
+ * @returns {HTMLDivElement} - Tooltip div.
+ */
 function createTooltip() {
     const tooltip = document.createElement("div");
     tooltip.style.position = "absolute";
@@ -73,6 +102,12 @@ function createTooltip() {
     return tooltip;
 }
 
+/**
+ * Hàm drawSingleBin
+ * Vẽ một bin lên canvas với màu sắc và thông tin tương ứng.
+ * @param {CanvasRenderingContext2D} ctx - Context của canvas.
+ * @param {Object} item - Thông tin bin.
+ */
 function drawSingleBin(ctx, item) {
     const { x1, y1, x2, y2, quantity, binCode } = item;
     const width = x2 - x1;
@@ -101,6 +136,12 @@ function drawSingleBin(ctx, item) {
     binRects.push({ x: x1, y: y1, width, height, bin: item });
 }
 
+/**
+ * Hàm setupHoverEvents
+ * Thiết lập sự kiện hover để hiển thị tooltip khi di chuột qua các bin.
+ * @param {HTMLCanvasElement} canvas - Canvas chứa layout.
+ * @param {HTMLDivElement} tooltip - Tooltip để hiển thị thông tin bin.
+ */
 function setupHoverEvents(canvas, tooltip) {
     canvas.addEventListener("mousemove", (e) => {
         const rect = canvas.getBoundingClientRect();

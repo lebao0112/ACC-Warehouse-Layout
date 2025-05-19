@@ -13,6 +13,9 @@ codeunit 50100 "Cod Bin Coordinate Management"
         ACCSetup: Record "ACC Setup";
 
     begin
+        if not ACCSetup.Get() then
+            exit;
+
         if ACCSetup."ACC Ware House Layout".HasValue() then //Xác nhận người dùng cần ghi đè hay không
             if not Confirm('Do you want to upload the new layout image?', false) then exit;
 
